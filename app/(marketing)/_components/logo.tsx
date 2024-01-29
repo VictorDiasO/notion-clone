@@ -15,6 +15,14 @@ export const Logo = () => {
         height={40}
         width={40}
         alt="Votion Logo"
+        className="dark:hidden"
+      />
+      <Image
+        src="/logo-dark.svg"
+        height={40}
+        width={40}
+        alt="Votion Logo"
+        className="hidden dark:block"
       />
       <p className={cn("font-semibold", font.className)}>
         Votion

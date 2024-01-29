@@ -11,7 +11,7 @@ export const Heading = () => {
       </h1>
       <h3 className="text-base sm:text-xl md:text-2xl font-medium">
         Votion is the place that you can work <br />
-        better & faster.
+        better & faster. Your new workspace is here.
       </h3>
       <Button>
         Enter Votion
