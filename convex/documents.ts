@@ -255,7 +255,7 @@ export const getById = query({
   }
 });
 
-export const upate = mutation({
+export const update = mutation({
   args: {
     id: v.id("documents"),
     title: v.optional(v.string()),
