@@ -1,3 +1,12 @@
+# Why use Votion
+Votion is a Notion Clone made based in a Tutorial from Code With Antonio. The difference between Votion and Notion is that here we are Open-Source, we are building an Ecosystem of applications for boost productivity of developers and we are trying to be as simple as taking notes on a physical notebook.
+
+The market pain we had identified: The learning curve to understand Notion is high, but this is because their goal is to make possible for the users to create complex stuff there, while here, we are just for taking fast notes and connecting your notes to your Pomodoro/Flowmodoro Timer, using our Canvas to draw and save all of it in the same place. We are not meant to be as complex as Notion, but as simple as a notebook.
+
+Its important to say that Votion doesn't cryptographicize anything yet, so wait for an update to have a more secure version of Votion.
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
