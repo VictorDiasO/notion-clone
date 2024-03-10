@@ -7,20 +7,24 @@ import { PlusCircle } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const DocumentsPage = () => {
+  const router = useRouter();
   const { user } = useUser();
   const create = useMutation(api.documents.create);
 
   const onCreate = () => {
-    const promise = create({ title: "Untitled" });
+    const promise = create({ title: "Untitled" }).then((documentId) =>
+      router.push(`/documents/${documentId}`),
+    );
 
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created successfully!",
-      error: "Failed to create a new note."
+      error: "Failed to create a new note.",
     });
-  }
+  };
 
   return (
     <div className="h-full flex flex-col items-center justify-center space-y-4">
@@ -47,6 +51,6 @@ const DocumentsPage = () => {
       </Button>
     </div>
   );
-}
+};
 
 export default DocumentsPage;
