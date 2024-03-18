@@ -10,6 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useArchives } from "@/hooks/use-archives";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { useMutation } from "convex/react";
@@ -51,6 +52,7 @@ export const Item = ({
 }: ItemProps) => {
   const router = useRouter();
   const { user } = useUser();
+  const archivesModal = useArchives();
   const create = useMutation(api.documents.create);
   const archive = useMutation(api.documents.archive);
 
@@ -78,19 +80,10 @@ export const Item = ({
     event.stopPropagation();
     if (!id) return;
 
-    const promise = create({ title: "Untitled", parentDocument: id }).then(
-      (documentId) => {
-        if (!expanded) {
-          onExpand?.();
-        }
-        router.push(`/documents/${documentId}`);
-      },
-    );
-
-    toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created successfully!",
-      error: "Failed to create a new note",
+    archivesModal.onOpen({
+      parentId: id,
+      expanded: expanded,
+      onExpand: onExpand,
     });
   };
 

@@ -12,6 +12,7 @@ export default defineSchema({
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
+    fileType: v.string(), // canvas || note || mixed
   })
   .index("by_user", ["userId"])
   .index("by_user_parent", ["userId", "parentDocument"])

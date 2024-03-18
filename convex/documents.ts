@@ -85,6 +85,7 @@ export const getSidebar = query({
 export const create = mutation({
   args: {
     title: v.string(),
+    fileType: v.string(),
     parentDocument: v.optional(v.id("documents"))
   },
   handler: async (ctx, args) => {
@@ -102,6 +103,7 @@ export const create = mutation({
       userId,
       isArchived: false,
       isPublished: false,
+      fileType: args.fileType
     });
 
     return document;
@@ -263,6 +265,7 @@ export const update = mutation({
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
     isPublished: v.optional(v.boolean()),
+    fileType: v.optional(v.string())
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();

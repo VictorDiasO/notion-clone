@@ -11,25 +11,8 @@ import { useRouter } from "next/navigation";
 import { useArchives } from "@/hooks/use-archives";
 
 const DocumentsPage = () => {
-  const router = useRouter();
   const { user } = useUser();
-  const create = useMutation(api.documents.create);
-  const archives = useArchives();
-
-  const onCreate = () => {
-    archives.onOpen();
-/*
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
-    );
-
-    toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created successfully!",
-      error: "Failed to create a new note.",
-    });
-    */
-  };
+  const archivesModal = useArchives();
 
   return (
     <div className="h-full flex flex-col items-center justify-center space-y-4">
@@ -50,7 +33,7 @@ const DocumentsPage = () => {
       <h2 className="text-lg font-medium">
         Welcome to {user?.firstName}&apos;s Votion
       </h2>
-      <Button onClick={onCreate}>
+      <Button onClick={() => archivesModal.onOpen({})}>
         <PlusCircle className="h-4 w-4 mr-2" />
         Create a note
       </Button>

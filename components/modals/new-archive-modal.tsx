@@ -8,23 +8,47 @@ import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Id } from "@/convex/_generated/dataModel";
 
-export const NewArchiveModal = () => {
+interface NewArchiveModalProps {
+  parentId?: Id<"documents">;
+  expanded?: boolean;
+  onExpand?: () => void;
+}
+
+export const NewArchiveModal = ({
+  parentId,
+  expanded,
+  onExpand,
+}: NewArchiveModalProps) => {
   const router = useRouter();
   const archives = useArchives();
   const create = useMutation(api.documents.create);
+  const archivesModal = useArchives();
 
   const onCreateNote = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
-    );
+    const promise = parentId
+      ? create({
+          title: "Untitled",
+          parentDocument: parentId,
+          fileType: "note",
+        }).then((documentId) => {
+          if (!expanded) {
+            onExpand?.();
+          }
+          router.push(`/documents/${documentId}`);
+        })
+      : create({ title: "Untitled", fileType: "note" }).then((documentId) =>
+          router.push(`/documents/${documentId}`),
+        );
 
     toast.promise(promise, {
       loading: "Creating a new note...",
       success: "New note created successfully!",
       error: "Failed to create a new note.",
     });
-  }
+    archivesModal.onClose();
+  };
 
   return (
     <Dialog open={archives.isOpen} onOpenChange={archives.onClose}>
@@ -37,20 +61,19 @@ export const NewArchiveModal = () => {
             <Label>Options</Label>
             <div>
               <span className="text-[0.8rem] text-muted-foreground">
-                Canvas is a Whiteboard mode, while Note is a Notion-like text-editor
+                Canvas is a Whiteboard mode, while Note is a Notion-like
+                text-editor
               </span>
             </div>
           </div>
-          </div>
-          <div className="flex justify-between gap-4">
-            <Button className="w-[50%]" onClick={onCreateNote}>
-              Canvas
-            </Button>
-            <Button className="w-[50%]">
-              Note
-            </Button>
+        </div>
+        <div className="flex justify-between gap-4">
+          <Button className="w-[50%]">Canvas</Button>
+          <Button className="w-[50%]" onClick={onCreateNote}>
+            Note
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
+};
