@@ -50,6 +50,30 @@ export const NewArchiveModal = ({
     archivesModal.onClose();
   };
 
+  const onCreateCanvas = () => {
+    const promise = parentId
+      ? create({
+          title: "Untitled",
+          parentDocument: parentId,
+          fileType: "canvas",
+        }).then((documentId) => {
+          if (!expanded) {
+            onExpand?.();
+          }
+          router.push(`/documents/${documentId}`);
+        })
+      : create({ title: "Untitled", fileType: "canvas" }).then((documentId) =>
+          router.push(`/documents/${documentId}`),
+        );
+
+    toast.promise(promise, {
+      loading: "Creating a new canvas...",
+      success: "New canvas created successfully!",
+      error: "Failed to create a new canvas.",
+    });
+    archivesModal.onClose();
+  };
+
   return (
     <Dialog open={archives.isOpen} onOpenChange={archives.onClose}>
       <DialogContent>
@@ -68,7 +92,9 @@ export const NewArchiveModal = ({
           </div>
         </div>
         <div className="flex justify-between gap-4">
-          <Button className="w-[50%]">Canvas</Button>
+          <Button className="w-[50%]" onClick={onCreateCanvas}>
+            Canvas
+          </Button>
           <Button className="w-[50%]" onClick={onCreateNote}>
             Note
           </Button>

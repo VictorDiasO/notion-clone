@@ -1,5 +1,6 @@
 "use client";
 
+import "./index.css";
 import { Cover } from "@/components/cover";
 import dynamic from "next/dynamic";
 import { Toolbar } from "@/components/toolbar";
@@ -8,6 +9,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { useMemo } from "react";
+import { useTheme } from "next-themes";
 
 interface DocumentIdPageProps {
   params: {
@@ -20,6 +22,11 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     [],
   );
+  const Tldraw = dynamic(async () => (await import("tldraw")).Tldraw, {
+    ssr: false,
+  });
+
+  const { resolvedTheme } = useTheme();
 
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
@@ -55,13 +62,28 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
 
   return (
-    <div className="pb-40">
-      <Cover url={document.coverImage} />
-      <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar initialData={document} />
-        <Editor onChange={onChange} initialContent={document.content} />
-      </div>
-    </div>
+    <>
+      {document.fileType === "note" && (
+        <div className="pb-40">
+          <Cover url={document.coverImage} />
+          <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
+            <Toolbar initialData={document} />
+            <Editor onChange={onChange} initialContent={document.content} />
+          </div>
+        </div>
+      )}
+      {document.fileType === "canvas" && (
+        <div
+          className="w-full"
+          style={{ position: "fixed", inset: 0, marginTop: 60 }}
+        >
+          <Tldraw
+            inferDarkMode={resolvedTheme === "dark" ? true : false}
+            persistenceKey={params.documentId}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

@@ -28,6 +28,7 @@ import TrashBox from "./trash-box";
 import { useSearch } from "@/hooks/use-search";
 import { useSettings } from "@/hooks/use-settings";
 import { Navbar } from "./navbar";
+import { useArchives } from "@/hooks/use-archives";
 
 export const Navigation = () => {
   const router = useRouter();
@@ -37,6 +38,7 @@ export const Navigation = () => {
   const pathname = usePathname();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const create = useMutation(api.documents.create);
+  const archives = useArchives();
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<ElementRef<"aside">>(null);
@@ -121,18 +123,6 @@ export const Navigation = () => {
     }
   }, [pathname, isMobile]);
 
-  const handleCreate = () => {
-    const promise = create({ title: "Untitled" }).then((documentId) =>
-      router.push(`/documents/${documentId}`),
-    );
-
-    toast.promise(promise, {
-      loading: "Creating a new note...",
-      success: "New note created successfully!",
-      error: "Failed to create a new note.",
-    });
-  };
-
   return (
     <>
       <aside
@@ -156,11 +146,19 @@ export const Navigation = () => {
           <UserItem />
           <Item label="Search" icon={Search} isSearch onClick={search.onOpen} />
           <Item label="Settings" icon={Settings} onClick={settings.onOpen} />
-          <Item onClick={handleCreate} label="New page" icon={PlusCircle} />
+          <Item
+            onClick={() => archives.onOpen({})}
+            label="New page"
+            icon={PlusCircle}
+          />
         </div>
         <div className="mt-4">
           <DocumentList />
-          <Item onClick={handleCreate} icon={Plus} label="Add a page" />
+          <Item
+            onClick={() => archives.onOpen({})}
+            icon={Plus}
+            label="Add a page"
+          />
           <Popover>
             <PopoverTrigger className="w-full mt-4">
               <Item label="Trash" icon={Trash} />
