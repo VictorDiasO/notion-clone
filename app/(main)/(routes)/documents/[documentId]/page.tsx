@@ -72,7 +72,11 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
           className="w-full"
           style={{ position: "fixed", inset: 0, marginTop: 60 }}
         >
-          <TLDraw documentId={params.documentId} />
+          <TLDraw
+            documentId={params.documentId}
+            onChange={onChange}
+            initialContent={document.content}
+          />
         </div>
       )}
     </>

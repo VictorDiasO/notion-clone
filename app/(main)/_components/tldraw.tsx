@@ -8,9 +8,15 @@ import { useCallback, useEffect, useState } from "react";
 
 interface TldrawProps {
   documentId: Id<"documents">;
+  onChange: (content: string) => void;
+  initialContent?: any;
 }
 
-export const TLDraw = ({ documentId }: TldrawProps) => {
+export const TLDraw = ({
+  documentId,
+  initialContent,
+  onChange,
+}: TldrawProps) => {
   const { resolvedTheme } = useTheme();
   const [editor, setEditor] = useState<Editor>();
 
@@ -24,7 +30,7 @@ export const TLDraw = ({ documentId }: TldrawProps) => {
     const saveSnapshot = () => {
       const snapshot = editor.store.getSnapshot();
       const stringifiedSnapshot = JSON.stringify(snapshot);
-      console.log(stringifiedSnapshot);
+      onChange(stringifiedSnapshot);
     };
 
     const handleChangeEvent: TLEventMapHandler<"change"> = (change) => {
@@ -71,7 +77,11 @@ export const TLDraw = ({ documentId }: TldrawProps) => {
       style={{ position: "fixed", inset: 0, marginTop: 60 }}
     >
       <Tldraw
-        onMount={setAppToState}
+        onMount={(editor) => {
+          setAppToState(editor);
+          if (initialContent)
+            editor.store.loadSnapshot(JSON.parse(initialContent));
+        }}
         inferDarkMode={resolvedTheme === "dark"}
         persistenceKey={documentId}
         components={components}
