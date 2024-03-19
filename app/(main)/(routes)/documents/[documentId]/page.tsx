@@ -8,8 +8,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
+import { track, useEditor } from "tldraw";
+import { components } from "@/components/tldraw";
+import { TLDraw } from "@/app/(main)/_components/tldraw";
 
 interface DocumentIdPageProps {
   params: {
@@ -22,6 +25,8 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     [],
   );
+
+  const tldrawEditor = useEditor();
   const Tldraw = dynamic(async () => (await import("tldraw")).Tldraw, {
     ssr: false,
   });
@@ -77,10 +82,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
           className="w-full"
           style={{ position: "fixed", inset: 0, marginTop: 60 }}
         >
-          <Tldraw
-            inferDarkMode={resolvedTheme === "dark" ? true : false}
-            persistenceKey={params.documentId}
-          />
+          <TLDraw documentId={params.documentId} />
         </div>
       )}
     </>
