@@ -2,7 +2,6 @@
 
 import { Id } from "@/convex/_generated/dataModel";
 import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
 import { Editor, TLEventMapHandler, Tldraw } from "tldraw";
 import { components } from "@/components/tldraw";
 import { useCallback, useEffect, useState } from "react";

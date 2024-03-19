@@ -8,10 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
-import { useEffect, useMemo } from "react";
-import { useTheme } from "next-themes";
-import { track, useEditor } from "tldraw";
-import { components } from "@/components/tldraw";
+import { useMemo } from "react";
 import { TLDraw } from "@/app/(main)/_components/tldraw";
 
 interface DocumentIdPageProps {
@@ -25,13 +22,6 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
     () => dynamic(() => import("@/components/editor"), { ssr: false }),
     [],
   );
-
-  const tldrawEditor = useEditor();
-  const Tldraw = dynamic(async () => (await import("tldraw")).Tldraw, {
-    ssr: false,
-  });
-
-  const { resolvedTheme } = useTheme();
 
   const document = useQuery(api.documents.getById, {
     documentId: params.documentId,
