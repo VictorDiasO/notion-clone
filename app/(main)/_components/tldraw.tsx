@@ -82,7 +82,7 @@ export const TLDraw = ({
           setAppToState(editor);
           if (
             initialContent &&
-            JSON.stringify(editor.store.getSnapshot()).length < 1
+            JSON.stringify(editor.store.getSnapshot()) !== initialContent
           )
             editor.store.loadSnapshot(JSON.parse(initialContent));
         }}
