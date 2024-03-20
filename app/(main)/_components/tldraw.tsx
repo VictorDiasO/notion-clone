@@ -26,6 +26,7 @@ export const TLDraw = ({
 
   useEffect(() => {
     if (!editor) return;
+    console.log("Rodou o effect");
 
     const saveSnapshot = () => {
       const snapshot = editor.store.getSnapshot();
@@ -69,7 +70,7 @@ export const TLDraw = ({
     return () => {
       cleanupFunction();
     };
-  }, [editor]);
+  }, [editor, onChange]);
 
   return (
     <div
@@ -79,7 +80,10 @@ export const TLDraw = ({
       <Tldraw
         onMount={(editor) => {
           setAppToState(editor);
-          if (initialContent)
+          if (
+            initialContent &&
+            JSON.stringify(editor.store.getSnapshot()).length < 1
+          )
             editor.store.loadSnapshot(JSON.parse(initialContent));
         }}
         inferDarkMode={resolvedTheme === "dark"}
