@@ -24,6 +24,11 @@ export const TLDraw = ({
     setEditor(editor);
   }, []);
 
+  const isMobile = () => {
+    const userAgent = window.navigator.userAgent;
+    return /Mobi|Android/i.test(userAgent);
+  };
+
   useEffect(() => {
     if (!editor) return;
     console.log("Rodou o effect");
@@ -89,6 +94,7 @@ export const TLDraw = ({
         inferDarkMode={resolvedTheme === "dark"}
         persistenceKey={documentId}
         components={components}
+        forceMobile={!!isMobile()}
       />
     </div>
   );
