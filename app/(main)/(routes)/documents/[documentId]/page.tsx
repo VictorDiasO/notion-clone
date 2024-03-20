@@ -68,10 +68,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
         </div>
       )}
       {document.fileType === "canvas" && (
-        <div
-          className="w-full"
-          style={{ position: "fixed", inset: 0, marginTop: 60 }}
-        >
+        <div className="absolute w-full m-0">
           <TLDraw
             documentId={params.documentId}
             onChange={onChange}

@@ -79,10 +79,7 @@ export const TLDraw = ({
   }, [editor, onChange]);
 
   return (
-    <div
-      className="w-full"
-      style={{ position: "fixed", inset: 0, marginTop: 60 }}
-    >
+    <div className="w-full" style={{ position: "fixed", inset: 0 }}>
       <Tldraw
         onMount={(editor) => {
           setAppToState(editor);
