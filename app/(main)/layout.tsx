@@ -5,9 +5,11 @@ import { useConvexAuth } from "convex/react";
 import { redirect } from "next/navigation";
 import { Navigation } from "./_components/navigation";
 import { SearchCommand } from "@/components/search-command";
+import { useState } from "react";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const [isHorizontal, setIsHorizontal] = useState(false);
 
   if (isLoading) {
     return (
@@ -27,15 +29,14 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   };
 
   const isHorizontalOrientation = () => {
-    console.log("Screen angle: ", screen.orientation.angle);
-    return Math.abs(screen.orientation.angle) === 90;
+    if (Math.abs(screen.orientation.angle) === 90) setIsHorizontal(true);
   };
 
   screen.orientation.addEventListener("change", isHorizontalOrientation);
 
   return (
     <>
-      {isMobile() && isHorizontalOrientation() ? (
+      {isMobile() && isHorizontal ? (
         <div className="h-full flex dark:bg-[#1F1F1F]">{children}</div>
       ) : (
         <div className="h-full flex dark:bg-[#1F1F1F]">
