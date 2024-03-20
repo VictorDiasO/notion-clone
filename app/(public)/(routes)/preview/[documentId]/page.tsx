@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { useMemo } from "react";
+import { TLDraw } from "@/app/(main)/_components/tldraw";
 
 interface DocumentIdPageProps {
   params: {
@@ -55,17 +56,34 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   }
 
   return (
-    <div className="pb-40">
-      <Cover preview url={document.coverImage} />
-      <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
-        <Toolbar preview initialData={document} />
-        <Editor
-          editable={false}
-          onChange={onChange}
-          initialContent={document.content}
-        />
-      </div>
-    </div>
+    <>
+      {document.fileType === "note" && (
+        <div className="pb-40">
+          <Cover preview url={document.coverImage} />
+          <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
+            <Toolbar preview initialData={document} />
+            <Editor
+              editable={false}
+              onChange={onChange}
+              initialContent={document.content}
+            />
+          </div>
+        </div>
+      )}
+      {document.fileType === "canvas" && (
+        <div
+          className="w-full"
+          style={{ position: "fixed", inset: 0, marginTop: 60 }}
+        >
+          <TLDraw
+            documentId={params.documentId}
+            onChange={onChange}
+            initialContent={document.content}
+            readonly={true}
+          />
+        </div>
+      )}
+    </>
   );
 };
 

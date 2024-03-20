@@ -10,12 +10,14 @@ interface TldrawProps {
   documentId: Id<"documents">;
   onChange: (content: string) => void;
   initialContent?: any;
+  readonly?: boolean;
 }
 
 export const TLDraw = ({
   documentId,
   initialContent,
   onChange,
+  readonly = false,
 }: TldrawProps) => {
   const { resolvedTheme } = useTheme();
   const [editor, setEditor] = useState<Editor>();
@@ -31,7 +33,6 @@ export const TLDraw = ({
 
   useEffect(() => {
     if (!editor) return;
-    console.log("Rodou o effect");
 
     const saveSnapshot = () => {
       const snapshot = editor.store.getSnapshot();
@@ -85,6 +86,7 @@ export const TLDraw = ({
       <Tldraw
         onMount={(editor) => {
           setAppToState(editor);
+          editor.updateInstanceState({ isReadonly: readonly });
           if (
             initialContent &&
             JSON.stringify(editor.store.getSnapshot()) !== initialContent
