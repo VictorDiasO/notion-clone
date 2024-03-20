@@ -36,9 +36,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {isMobile() && isHorizontalOrientation() ? (
-        <div className="h-full w-full absolute flex dark:bg-[#1F1F1F]">
-          {children}
-        </div>
+        <div className="h-full flex dark:bg-[#1F1F1F]">{children}</div>
       ) : (
         <div className="h-full flex dark:bg-[#1F1F1F]">
           <Navigation />
