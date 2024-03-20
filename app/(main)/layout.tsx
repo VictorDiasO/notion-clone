@@ -21,14 +21,32 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     return redirect("/");
   }
 
+  const isMobile = () => {
+    const userAgent = window.navigator.userAgent;
+    return /Mobi|Android/i.test(userAgent);
+  };
+
+  const isHorizontalOrientation = () => {
+    console.log("Screen angle: ", screen.orientation.angle);
+    return Math.abs(screen.orientation.angle) === 90;
+  };
+
+  screen.orientation.addEventListener("change", isHorizontalOrientation);
+
   return (
-    <div className="h-full flex dark:bg-[#1F1F1F]">
-      <Navigation />
-      <main className="flex-1 h-full overflow-y-auto">
-        <SearchCommand />
-        {children}
-      </main>
-    </div>
+    <>
+      {isMobile() && isHorizontalOrientation() ? (
+        <div className="h-full flex dark:bg-[#1F1F1F]">{children}</div>
+      ) : (
+        <div className="h-full flex dark:bg-[#1F1F1F]">
+          <Navigation />
+          <main className="flex-1 h-full overflow-y-auto">
+            <SearchCommand />
+            {children}
+          </main>
+        </div>
+      )}
+    </>
   );
 };
 
