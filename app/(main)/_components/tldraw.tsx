@@ -79,7 +79,10 @@ export const TLDraw = ({
   }, [editor, onChange]);
 
   return (
-    <div className="w-full" style={{ position: "fixed", inset: 0 }}>
+    <div
+      className="w-full"
+      style={{ position: "fixed", inset: 0, height: "99%" }}
+    >
       <Tldraw
         onMount={(editor) => {
           setAppToState(editor);
@@ -94,7 +97,7 @@ export const TLDraw = ({
         persistenceKey={documentId}
         // components={components}
         forceMobile={!!isMobile()}
-        className={`${!isMobile() && "mt-12"}`}
+        className={`${!isMobile() && "mt-[2.5%] mb-3"}`}
       />
     </div>
   );
