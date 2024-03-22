@@ -94,6 +94,7 @@ export const TLDraw = ({
         persistenceKey={documentId}
         components={components}
         forceMobile={!!isMobile()}
+        className={`${!isMobile && "mt-12"}`}
       />
     </div>
   );
