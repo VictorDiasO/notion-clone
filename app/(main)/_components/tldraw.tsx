@@ -92,7 +92,7 @@ export const TLDraw = ({
         }}
         inferDarkMode={resolvedTheme === "dark"}
         persistenceKey={documentId}
-        components={components}
+        // components={components}
         forceMobile={!!isMobile()}
         className={`${!isMobile && "mt-12"}`}
       />
