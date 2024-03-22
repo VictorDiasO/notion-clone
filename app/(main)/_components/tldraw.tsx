@@ -81,7 +81,7 @@ export const TLDraw = ({
   return (
     <div
       className="w-full"
-      style={{ position: "fixed", inset: 0, height: "98%" }}
+      style={{ position: "fixed", inset: 0, height: "93%" }}
     >
       <Tldraw
         onMount={(editor) => {
